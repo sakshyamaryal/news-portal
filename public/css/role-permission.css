@@ -1,0 +1,20 @@
+.permission-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.btn-group .btn {
+    margin-right: 5px; 
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0; 
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+}
+
+table th, table td {
+    vertical-align: middle;
+}
