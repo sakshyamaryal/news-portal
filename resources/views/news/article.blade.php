@@ -304,6 +304,7 @@
     const editComment = async (commentId) => {
         const commentItem = document.getElementById(`comment-${commentId}`);
         const commentContent = commentItem.querySelector('.comment-content');
+        const bearerToken = document.querySelector('meta[name="bearer-token"]').getAttribute('content');
 
         // Create a textarea for editing
         const textarea = document.createElement('textarea');
@@ -325,10 +326,11 @@
             if (!newContent) return;
 
             try {
-                const response = await fetch(`/comments/${commentId}`, {
+                const response = await fetch(`/api/comments/${commentId}`, {
                     method: 'PUT',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Authorization': `Bearer ${bearerToken}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
@@ -354,6 +356,7 @@
     };
 
     const deleteComment = async (commentId) => {
+        const bearerToken = document.querySelector('meta[name="bearer-token"]').getAttribute('content');
 
         const result = await Swal.fire({
             title: 'Are you sure?',
@@ -366,10 +369,12 @@
 
         if (result.isConfirmed) {
             try {
-                const response = await fetch(`/comments/${commentId}`, {
+                const response = await fetch(`/api/comments/${commentId}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Authorization': `Bearer ${bearerToken}`,
+                        'Content-Type': 'application/json',
                     },
                 });
 
@@ -401,6 +406,7 @@
     document.getElementById('comment-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const form = e.target;
+        const bearerToken = document.querySelector('meta[name="bearer-token"]').getAttribute('content');
 
         try {
             const response = await fetch(form.action, {
@@ -408,6 +414,7 @@
                 body: new FormData(form),
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': `Bearer ${bearerToken}`,
                 },
             });
 

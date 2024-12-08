@@ -70,7 +70,14 @@ class DashboardController extends Controller
             ->get()
             ->pluck('articles_count', 'name');
 
-        // Return the data for charts
+        $topCommentedArticles = Article::withCount('comments') 
+        ->orderByDesc('comments_count') 
+        ->take(20)
+        ->get();
+    
+        $pieChartLabels = $topCommentedArticles->pluck('title'); 
+        $pieChartValues = $topCommentedArticles->pluck('comments_count'); 
+
         return response()->json([
             'pageViewsData' => [
                 'labels' => $pageViewsLabels,
@@ -83,6 +90,10 @@ class DashboardController extends Controller
             'categoryDistribution' => [
                 'labels' => $categoryDistributionData->keys(),
                 'values' => $categoryDistributionData->values(),
+            ],
+            'topCommentedArticles' => [
+                'labels' => $pieChartLabels, 
+                'values' => $pieChartValues,
             ],
         ]);
     }

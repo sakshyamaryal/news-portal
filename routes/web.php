@@ -36,8 +36,7 @@ Route::get('/', [NewsController::class, 'index']);
 Route::get('category/{id}', [NewsController::class, 'showCategory'])->name('category.articles');
 Route::get('search', [NewsController::class, 'search'])->name('search.articles');
 Route::get('/article/{id}', [NewsController::class, 'showArticle'])->name('article.show');
-Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('auth');
-Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
+
 
 
 
@@ -49,32 +48,29 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('roles-permissions')->name('roles_permissions.')->group(function () {
-        // Role Routes
         Route::get('/', [RoleAndPermissionController::class, 'index'])->name('index');
         Route::post('store-role', [RoleAndPermissionController::class, 'storeRole'])->name('store_role');
         Route::get('edit-role/{role}', [RoleAndPermissionController::class, 'editRole'])->name('edit_role');
         Route::put('update-role/{role}', [RoleAndPermissionController::class, 'updateRole'])->name('update_role');
         Route::delete('destroy-role/{role}', [RoleAndPermissionController::class, 'destroyRole'])->name('destroyRole');
         
-        // Permission Routes
         Route::post('store-permission', [RoleAndPermissionController::class, 'storePermission'])->name('store_permission');
         Route::get('edit-permission/{permission}', [RoleAndPermissionController::class, 'editPermission'])->name('edit_permission');
         Route::put('update-permission/{permission}', [RoleAndPermissionController::class, 'updatePermission'])->name('update_permission');
         Route::delete('destroy-permission/{permission}', [RoleAndPermissionController::class, 'destroyPermission'])->name('destroyPermission');
         
-        // Assign Permissions to Roles
         Route::post('assign-permissions/{role}', [RoleAndPermissionController::class, 'assignPermissions'])->name('assign_permissions');
     });
 
     Route::get('/user-management', [UserController::class, 'index'])->name('users.index');
 
     Route::prefix('users')->group(function () {
-        Route::get('/create', [UserController::class, 'create'])->name('users.create'); // Show form to create user
-        Route::post('/', [UserController::class, 'store'])->name('users.store'); // Store new user
-        Route::get('/{user}', [UserController::class, 'show'])->name('users.show'); // Show single user details
-        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit'); // Show form to edit user
-        Route::put('/{user}', [UserController::class, 'update'])->name('users.update'); // Update user details
-        Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete user
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/', [UserController::class, 'store'])->name('users.store');
+        Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');

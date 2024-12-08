@@ -56,7 +56,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 chart-card">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-users"></i> User Age Distribution (Pie Chart)</h5>
+                            <h5 class="card-title"><i class="fas fa-users"></i> Top 20 Commented Article (Pie Chart)</h5>
                             <div class="chart-container">
                                 <canvas id="pieChart"></canvas>
                             </div>
@@ -189,19 +189,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
     document.addEventListener('DOMContentLoaded', () => {
         const bearerToken = document.querySelector('meta[name="bearer-token"]').getAttribute('content');
         console.log(bearerToken);
         fetch('/api/dashboard-data', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${bearerToken}`,
-                        'X-Requested-With': 'XMLHttpRequest'  
-                    },
-                    credentials: 'same-origin'
-                })
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${bearerToken}`,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
             .then(response => {
                 if (!response.ok) {
                     // if (response.status === 401 || response.status === 403) {
@@ -213,7 +212,7 @@
                 return response.json()
             })
             .then(data => {
-                
+
                 barChart.data.datasets[0].data = data.pageViewsData.values;
                 barChart.data.labels = data.pageViewsData.labels;
                 barChart.update();
@@ -226,6 +225,10 @@
                 doughnutChart.data.labels = data.categoryDistribution.labels;
                 doughnutChart.data.datasets[0].data = data.categoryDistribution.values;
                 doughnutChart.update();
+
+                pieChart.data.labels = data.topCommentedArticles.labels;
+                pieChart.data.datasets[0].data = data.topCommentedArticles.values;
+                pieChart.update();
             })
             .catch(error => console.error('Error fetching dashboard data:', error));
     });
@@ -367,21 +370,21 @@
     // Pie Chart with improved animation
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
-        type: 'pie',
+        type: 'pie', // Pie chart type
         data: {
-            labels: ['18-24', '25-34', '35-44', '45+'],
+            labels: ['Article 1', 'Article 2', 'Article 3', 'Article 4'], // Article titles
             datasets: [{
-                data: [30, 40, 20, 10],
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-                borderColor: '#fff',
+                data: [500, 1200, 800, 450], // Replace with the actual number of views for each article
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'], // Different colors for each article
+                borderColor: '#fff', // Border color of slices
                 borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             animation: {
-                duration: 1000,
-                easing: 'easeOutBounce'
+                duration: 1000, // Animation duration
+                easing: 'easeOutBounce' // Animation easing
             },
             plugins: {
                 tooltip: {
@@ -401,6 +404,7 @@
                 }
             }
         }
+
     });
 </script>
 
