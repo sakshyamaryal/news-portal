@@ -9,20 +9,21 @@
             <div class="d-flex flex-wrap stats-container">
                 <div class="stats-card stats-card-blue">
                     <h3><i class="fas fa-newspaper"></i> Articles</h3>
-                    <p>342</p>  
+                    <p>{{ number_format($articlesCount) }}</p> <!-- Display articles count -->
                 </div>
                 <div class="stats-card stats-card-green">
                     <h3><i class="fas fa-eye"></i> Page Views</h3>
-                    <p>12.5k</p>
+                    <p>{{ number_format($pageViews) }}</p> <!-- Display page views -->
                 </div>
                 <div class="stats-card stats-card-yellow">
                     <h3><i class="fas fa-users"></i> Users</h3>
-                    <p>1.2k</p>
+                    <p>{{ number_format($usersCount) }}</p> <!-- Display users count -->
                 </div>
                 <div class="stats-card stats-card-red">
                     <h3><i class="fas fa-comments"></i> Comments</h3>
-                    <p>1.2k</p>
+                    <p>{{ number_format($commentsCount) }}</p> <!-- Display comments count -->
                 </div>
+
             </div>
 
             <!-- Charts Section -->
@@ -47,11 +48,11 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="chart-cards row">
-              
+
                 <div class="col-lg-6 col-md-6 col-sm-12 chart-card">
                     <div class="card">
                         <div class="card-body">
@@ -153,7 +154,7 @@
     }
 
     .stats-card-red {
-        background: #007bff ;
+        background: #007bff;
     }
 
     .chart-cards .card-body {
@@ -184,11 +185,51 @@
             margin-bottom: 20px;
         }
     }
-    
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const bearerToken = document.querySelector('meta[name="bearer-token"]').getAttribute('content');
+        console.log(bearerToken);
+        fetch('/api/dashboard-data', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${bearerToken}`,
+                        'X-Requested-With': 'XMLHttpRequest'  
+                    },
+                    credentials: 'same-origin'
+                })
+            .then(response => {
+                if (!response.ok) {
+                    // if (response.status === 401 || response.status === 403) {
+                    //     window.location.href = '/login';  // Redirect to login if unauthorized
+                    //     throw new Error('Unauthorized');
+                    // }
+                    throw new Error('Network response was not ok');
+                }
+                return response.json()
+            })
+            .then(data => {
+                
+                barChart.data.datasets[0].data = data.pageViewsData.values;
+                barChart.data.labels = data.pageViewsData.labels;
+                barChart.update();
+
+                lineChart.data.datasets[0].data = data.articlesPublishedData.values;
+                lineChart.data.labels = data.articlesPublishedData.labels;
+                lineChart.update();
+
+                // Update Doughnut Chart
+                doughnutChart.data.labels = data.categoryDistribution.labels;
+                doughnutChart.data.datasets[0].data = data.categoryDistribution.values;
+                doughnutChart.update();
+            })
+            .catch(error => console.error('Error fetching dashboard data:', error));
+    });
+
     // Bar Chart with gradient and better animation
     const ctxBar = document.getElementById('barChart').getContext('2d');
     const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
@@ -361,8 +402,6 @@
             }
         }
     });
-
-  
 </script>
 
 @endsection

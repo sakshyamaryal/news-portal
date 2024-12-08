@@ -32,7 +32,6 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
 Route::get('/', [NewsController::class, 'index']);
 Route::get('category/{id}', [NewsController::class, 'showCategory'])->name('category.articles');
 Route::get('search', [NewsController::class, 'search'])->name('search.articles');
