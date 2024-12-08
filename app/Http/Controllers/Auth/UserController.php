@@ -74,17 +74,17 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:6',
             'role' => 'required|exists:roles,name',
         ]);
 
         try {
-            if ($data['password']) {
-                $data['password'] = bcrypt($data['password']);
-            } else {
-                unset($data['password']);
+            if ($request->password) {
+                $request->validate([
+                    'password' => 'required|min:6',
+                ]);
+                $data['password'] = bcrypt($request->password);
             }
-            
+
             $user->update($data);
             $user->syncRoles([$request->role]);
 

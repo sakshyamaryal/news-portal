@@ -68,14 +68,15 @@
 
                     <!-- Password -->
                     <div class="mb-3">
-                        @if (auth()->user()->hasRole('superadmin')) <!-- Check if the user has the superadmin role -->
+                        @if (auth()->user()->hasRole('Super Administrator')) <!-- Check if the user has the superadmin role -->
                             <label for="password" class="form-label">Password (Leave blank to keep current password)</label>
 
                             <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter new password">
-                        @endif
                         @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                        @endif
+                       
                     </div>
 
 

@@ -96,7 +96,7 @@ class SidebarSeeder extends Seeder
         DB::table('sidebars')->insert([
             [
                 'title' => 'Create Article',
-                'url' => '/articles/create',  // This is for creating new articles
+                'url' => '/articles/create',  
                 'icon' => 'fas fa-plus',
                 'parent_id' => $articlesId,
                 'order' => 1,

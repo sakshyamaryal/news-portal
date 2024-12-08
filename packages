@@ -5,3 +5,12 @@ php artisan make:seeder RoleSeeder
 composer require laravel/passport
 
 php artisan passport:install
+
+php artisan queue:table
+php artisan make:job SendEmailJob
+
+php artisan queue:work
+
+php artisan storage:link
+
+php artisan migrate

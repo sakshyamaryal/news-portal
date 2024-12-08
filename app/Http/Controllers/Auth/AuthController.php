@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
+use App\Jobs\SendEmailJob;
+use App\Jobs\SendLoginEmailJob;
+use App\Mail\SendEmail;
+use App\Mail\SendLoginEmail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -42,10 +47,19 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            $data = [
+                'name' => $user->name,
+            ];
+    
+            SendLoginEmailJob::dispatch($request->email, $data);
+            $user = auth()->user();
+
+            if (!$user->hasPermissionTo('dashboard')) {
+                return redirect()->intended('/');
+            }
+            return redirect()->intended('/dashboard');
         }
     
-        // If authentication fails, return back with an error message
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -67,11 +81,19 @@ class AuthController extends Controller
         ]);
 
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $data = [
+            'name' => $user->name,
+            'url' => 'https://www.twilio.com/en-us/blog/queueing-in-laravel',
+        ];
+    
+
+        SendEmailJob::dispatch($user->email, $data);
 
         return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
     }
@@ -91,5 +113,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function sendWelcomeEmail(Request $request)
+    {
+        // Email data
+        $data = [
+            'name' => 'John Doe',
+            'url' => 'https://example.com',
+        ];
+
+        // Send the email immediately
+        Mail::to('sakshyamaryal1@gmail.com')->send(new SendEmail($data));
+
+        return response()->json(['message' => 'Email sent successfully!']);
     }
 }

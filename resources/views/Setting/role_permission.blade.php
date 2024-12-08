@@ -397,7 +397,6 @@
         role_id: roleId,
     };
 
-    console.log(data); // Debugging: Check if all permissions are sent
 
     var url = '{{ route('roles_permissions.assign_permissions', '__role_id__') }}'.replace('__role_id__', roleId);
 

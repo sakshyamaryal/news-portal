@@ -25,7 +25,6 @@ class CategoryServiceProvider extends ServiceProvider
         
         View::composer('*', function ($view) {
             $categories = Category::withCount('articles')->get();
-            
             $sidebars = Sidebar::where('is_active', true)->orderBy('order')->get(); // Fetch sidebars data
             $randomAdvertisement = Advertisement::inRandomOrder()->first();
             // Share categories and sidebars with all views

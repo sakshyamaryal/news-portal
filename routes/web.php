@@ -97,4 +97,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('articles', ArticleController::class);
     Route::delete('/images/{image}', [ArticleController::class, 'destroyImage'])->name('images.destroy');
+
+    Route::get('/send-welcome-email', [ArticleController::class, 'sendWelcomeEmail']);
 });

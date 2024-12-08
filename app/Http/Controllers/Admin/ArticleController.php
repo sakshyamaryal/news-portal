@@ -83,7 +83,11 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('create articles')) {
+            abort(403, 'You do not have access to add articles list Contract Administrator');
+        }
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
@@ -138,6 +142,12 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('view articles')) {
+            abort(403, 'You do not have access to view articles list Contract Administrator');
+        }
+
         return view('articles.show', compact('article'));
     }
 
@@ -146,6 +156,12 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $user = auth()->user();
+        if (!$user->hasPermissionTo('edit articles')) {
+            abort(403, 'You do not have access to edit articles list Contract Administrator');
+        }
+
+
         $categories = Category::all();
         return view('articles.edit', compact('article', 'categories'));
     }
@@ -157,6 +173,12 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('delete articles')) {
+            abort(403, 'You do not have access to delete articles list Contract Administrator');
+        }
+
         $article->delete();
         return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
     }
@@ -171,4 +193,8 @@ class ArticleController extends Controller
 
         return redirect()->back()->with('success', 'Image deleted successfully.');
     }
+
+
+  
+    
 }
