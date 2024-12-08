@@ -9,10 +9,10 @@ use Spatie\Permission\Models\Permission;
 
 class RoleAndPermissionController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:manage roles and permissions'); 
-    // }
+    public function __construct()
+    {
+        $this->middleware('can:manage roles');
+    }
 
     public function index()
     {
@@ -103,18 +103,18 @@ class RoleAndPermissionController extends Controller
 
     public function assignPermissions(Request $request, Role $role)
     {
-
-        // logger($request->all());
-
         $request->validate([
-            'permissions' => 'required|array', 
-            'permissions.*' => 'exists:permissions,name',
             'role_id' => 'required|exists:roles,id',
         ]);
 
-        
         if ($request->role_id != $role->id) {
             return response()->json(['error' => 'Role ID mismatch'], 400);
+        }
+
+        if (empty($request->permissions)) {
+            $role->syncPermissions([]);
+
+            return response()->json(['success' => 'All permissions removed from the role!']);
         }
 
         $permissions = Permission::whereIn('name', $request->permissions)->get();
@@ -122,4 +122,5 @@ class RoleAndPermissionController extends Controller
 
         return response()->json(['success' => 'Permissions assigned successfully!']);
     }
+
 }

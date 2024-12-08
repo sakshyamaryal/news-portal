@@ -34,7 +34,7 @@ class RoleSeeder extends Seeder
 
         // Read-Only Role
         $readOnlyRole = Role::firstOrCreate(['name' => 'Read-Only']);
-        $readOnlyRole->givePermissionTo('view articles');
+        // $readOnlyRole->givePermissionTo('view articles');
 
         // Admin Role
         $adminRole = Role::firstOrCreate(['name' => 'Admin']);
@@ -45,6 +45,7 @@ class RoleSeeder extends Seeder
             'delete articles',
             'manage users',
             'dashboard',
+            'manage roles',
             'manage category',
             'manage advertisements',
             'manage sidebar',

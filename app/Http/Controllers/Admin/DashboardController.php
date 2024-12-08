@@ -17,10 +17,12 @@ class DashboardController extends Controller
    
     public function index()
     {
-        $access = $this->middleware('can:dashboard');
-        if (!$access) {
-            abort(403, 'You do not have access to dashboard');
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('dashboard')) {
+            abort(403, 'You do not have access to Dashboard, Contract Administrator');
         }
+     
       
         $articlesCount = Article::count(); 
         $pageViews = Article::sum('view_count'); 

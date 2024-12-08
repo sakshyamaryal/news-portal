@@ -21,8 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth:api');
-Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update')->middleware('auth:api');
-Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth:api');
+Route::middleware(['auth:api'])->group(function () {
+    // Comment Routes
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-Route::get('/dashboard-data', [DashboardController::class, 'getDashboardData'])->middleware(['auth:api']);
+    // Dashboard Data Route
+    Route::get('/dashboard-data', [DashboardController::class, 'getDashboardData'])->name('dashboard.data');
+});

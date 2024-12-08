@@ -301,15 +301,13 @@
 
         // Edit Permission
         $('.edit-permission-btn').click(function () {
-            var permissionId = $(this).data('id'); // Get the permission ID
-            var permissionName = $(this).data('name'); // Get the permission name
+            var permissionId = $(this).data('id'); 
+            var permissionName = $(this).data('name');
             var url = '{{ route('roles_permissions.update_permission', '__permission_id__') }}'.replace('__permission_id__', permissionId);
 
-            // Populate modal fields
             $('#editPermissionName').val(permissionName);
-            $('#editPermissionForm').attr('action', url); // Set the form action
+            $('#editPermissionForm').attr('action', url);
 
-            // Show the modal
             $('#editPermissionModal').modal('show');
         });
 
@@ -381,8 +379,8 @@
     $(document).ready(function() {
         // Handle checkbox change for permissions
         $('.custom-control-input').change(function () {
-    var permissionName = $(this).next('label').text().trim(); // Get the permission name from the label
-    var roleId = $(this).closest('form').data('role-id'); // Get the role ID from the form data attribute
+        var permissionName = $(this).next('label').text().trim(); // Get the permission name from the label
+        var roleId = $(this).closest('form').data('role-id'); // Get the role ID from the form data attribute
 
     // Gather all checked permissions for the current role
     var checkedPermissions = $(this)
@@ -395,7 +393,7 @@
 
     var data = {
         _token: '{{ csrf_token() }}',
-        permissions: checkedPermissions, // All checked permissions
+        permissions: checkedPermissions ,
         role_id: roleId,
     };
 

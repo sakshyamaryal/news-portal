@@ -9,14 +9,24 @@ use App\Models\Image;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Contracts\Role;
+
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    
     public function index(Request $request)
     {
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('view articles')) {
+            abort(403, 'You do not have access to view articles list Contract Administrator');
+        }
+
         $categoryId = $request->get('category');
         $authorId = $request->get('author');
         $startDate = $request->get('start_date');
@@ -58,6 +68,12 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $user = auth()->user();
+
+        if (!$user->hasPermissionTo('create articles')) {
+            abort(403, 'You do not have access to create articles Contract Administrator');
+        }
+
         $categories = Category::all();
         return view('articles.create', compact('categories'));
     }
@@ -67,6 +83,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
