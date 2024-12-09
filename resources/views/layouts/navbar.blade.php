@@ -24,31 +24,4 @@
 
 <br>
 
-<!-- Profile Image Styles -->
-<style>
-    .profile-img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-</style>
-
-<script>
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
-            $('#sidebar').toggleClass('collapsed');
-            $('.content').toggleClass('full-width');
-        });
-
-        $('.nav-link[data-toggle="collapse"]').on('click', function() {
-            const target = $(this).attr('data-target');
-            $(target).collapse('toggle');
-        });
-
-        $('.nav-link').on('click', function() {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-        });
-    });
-</script>
+<script src="{{ asset('js/admin_sidebar.js') }}"></script>

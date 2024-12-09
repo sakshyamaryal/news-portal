@@ -151,31 +151,7 @@
 </div>
 
 <link rel="stylesheet" href="{{ asset('css/form-line.css') }}">
-<style>
-    #advertisementSearch {
-        border-radius: 25px;  /* Rounded corners */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
-    }
-
-    .input-group-text {
-        background-color: #f8f9fa;  /* Light background color */
-        border: none;  /* Remove border around the icon */
-    }
-
-    .input-group-prepend .input-group-text {
-        border-top-left-radius: 25px;
-        border-bottom-left-radius: 25px;
-    }
-
-    .input-group-text i {
-        color: #007bff;  /* Icon color */
-    }
-
-    .form-group {
-        margin-bottom: 20px;  /* Add space below the search bar */
-    }
-
-</style>
+<link rel="stylesheet" href="{{ asset('css/advertisement.css') }}">
 
     <script>
         const advertisementStoreUrl = '{{ route("advertisements.store") }}';

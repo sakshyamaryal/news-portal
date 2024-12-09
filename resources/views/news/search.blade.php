@@ -90,18 +90,6 @@
     </div>
 </div>
 
-<style>
-    .object-cover {
-        object-fit: cover;
-        width: 100%;
-    }
-    .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .hover-lift:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/search.css') }}">
 
 @endsection
