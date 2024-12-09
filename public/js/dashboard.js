@@ -54,7 +54,7 @@ const barChart = new Chart(ctxBar, {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         datasets: [{
             label: 'Page Views',
-            data: [1500, 2000, 3000, 4000, 2500],
+            data: [],
             backgroundColor: gradientBar,
             borderColor: '#007bff',
             borderWidth: 1
@@ -107,7 +107,7 @@ const lineChart = new Chart(ctxLine, {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         datasets: [{
             label: 'Articles Published',
-            data: [20, 40, 35, 55, 50],
+            data: [],
             borderColor: '#28a745',
             borderWidth: 2,
             fill: true,
@@ -147,7 +147,7 @@ const doughnutChart = new Chart(ctxDoughnut, {
     data: {
         labels: ['Technology', 'Lifestyle', 'Health', 'Business'],
         datasets: [{
-            data: [50, 20, 15, 15],
+            data: [],
             backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
             borderColor: '#fff',
             borderWidth: 2
@@ -181,19 +181,19 @@ const ctxPie = document.getElementById('pieChart').getContext('2d');
 const pieChart = new Chart(ctxPie, {
     type: 'pie', // Pie chart type
     data: {
-        labels: ['Article 1', 'Article 2', 'Article 3', 'Article 4'], // Article titles
+        labels: ['Article 1', 'Article 2', 'Article 3', 'Article 4'], 
         datasets: [{
-            data: [500, 1200, 800, 450], // Replace with the actual number of views for each article
-            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'], // Different colors for each article
-            borderColor: '#fff', // Border color of slices
+            data: [], 
+            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'], 
+            borderColor: '#fff', 
             borderWidth: 2
         }]
     },
     options: {
         responsive: true,
         animation: {
-            duration: 1000, // Animation duration
-            easing: 'easeOutBounce' // Animation easing
+            duration: 1000,
+            easing: 'easeOutBounce' 
         },
         plugins: {
             tooltip: {

@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ArticleSeeder::class,
-            SidebarSeeder::class
+            SidebarSeeder::class,
+            AdvertisementSeeder::class
         ]);
     }
 }
