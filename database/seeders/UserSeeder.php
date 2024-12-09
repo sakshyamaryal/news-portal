@@ -27,6 +27,18 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ])->assignRole('Admin');
 
+        User::create([
+            'name' => 'Editor',
+            'email' => 'editor@example.com',
+            'password' => Hash::make('password'),
+        ])->assignRole('Editor');
+
+        User::create([
+            'name' => 'Read-Only User',
+            'email' => 'readonly@example.com',
+            'password' => Hash::make('password'),
+        ])->assignRole('Read-Only');
+
         // Generate 10 fake users and assign random roles
         User::factory(10)->create()->each(function ($user) use ($roles) {
             $user->assignRole($roles[array_rand($roles)]);

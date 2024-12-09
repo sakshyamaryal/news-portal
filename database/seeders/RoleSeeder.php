@@ -51,6 +51,15 @@ class RoleSeeder extends Seeder
             'manage sidebar',
         ]);
 
+        $editor = Role::firstOrCreate(['name' => 'Editor']);
+        $editor->givePermissionTo([
+            'view articles',
+            'create articles',
+            'edit articles',
+            'delete articles',
+            'dashboard',
+        ]);
+
         // Super Administrator Role
         $superAdminRole = Role::firstOrCreate(['name' => 'Super Administrator']);
         $superAdminRole->givePermissionTo(Permission::all()); 

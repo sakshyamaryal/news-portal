@@ -30,7 +30,7 @@
                                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
                                 <label class="form-check-label" for="remember">Remember me</label>
                             </div>
-                            <a href="{{ url('/password/reset') }}" class="text-muted">Forgot Password?</a>
+                            <!-- <a href="{{ url('/password/reset') }}" class="text-muted">Forgot Password?</a> -->
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
                     </form>
